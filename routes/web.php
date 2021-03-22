@@ -31,8 +31,3 @@ Route::get('/register', function () {
 Route::get('/forgot-password', function () {
     return view('forgot-password');
 })->name('forgot-password');
-
-Route::get(
-    '/test',
-    [TesteController::class, 'create']
-)->name('profile');
