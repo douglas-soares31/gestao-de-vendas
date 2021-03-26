@@ -16461,11 +16461,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _public_img_ckstore_logomarca_jpeg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../public/img/ckstore_logomarca.jpeg */ "./public/img/ckstore_logomarca.jpeg");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  methods: {
-    getImage: function getImage() {
-      return 'img/ckstore_logomarca.jpeg';
-    }
+  data: function data() {
+    return {
+      imageLogo: _public_img_ckstore_logomarca_jpeg__WEBPACK_IMPORTED_MODULE_0__.default
+    };
   }
 });
 
@@ -16505,11 +16507,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _public_img_ckstore_logomarca_jpeg__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../public/img/ckstore_logomarca.jpeg */ "./public/img/ckstore_logomarca.jpeg");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  methods: {
-    getImage: function getImage() {
-      return 'img/ckstore_logomarca.jpeg';
-    }
+  data: function data() {
+    return {
+      imageLogo: _public_img_ckstore_logomarca_jpeg__WEBPACK_IMPORTED_MODULE_0__.default
+    };
   }
 });
 
@@ -18385,7 +18389,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("img", {
-    src: $options.getImage(),
+    src: _ctx.imageLogo,
     "class": "object-scale-down h-48 w-30 rounded-full h-48 w-30 flex items-center justify-center"
   }, null, 8
   /* PROPS */
@@ -18464,7 +18468,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-        src: $options.getImage(),
+        src: _ctx.imageLogo,
         "class": "object-scale-down h-48 w-30 rounded-full h-48 w-30 flex items-center justify-center"
       }, null, 8
       /* PROPS */
@@ -20694,7 +20698,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
   "class": "mb-4 text-sm text-gray-600"
-}, " Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one. ", -1
+}, " Esqueceu sua senha? Sem problema, nos informe o seu email que utiliza para acessar, que mandaremos um link para a redefinição da senha. ", -1
 /* HOISTED */
 );
 
@@ -20706,7 +20710,7 @@ var _hoisted_3 = {
   "class": "flex items-center justify-end mt-4"
 };
 
-var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Email Password Reset Link ");
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Confirmar ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_authentication_card_logo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-authentication-card-logo");
@@ -20941,9 +20945,9 @@ var _hoisted_9 = {
   "class": "flex items-center justify-end mt-4"
 };
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Already registered? ");
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Já tem uma conta? ");
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Register ");
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Registrar ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_jet_authentication_card_logo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("jet-authentication-card-logo");
