@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Teste as TesteController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Models\Provider;
-use App\Models\User;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,17 +16,14 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return view('login');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        //'laravelVersion' => Application::VERSION,
+        //'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-Route::get('/login', function () {
-    return view('login');
-});
-
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-
-Route::get('/forgot-password', function () {
-    return view('forgot-password');
-})->name('forgot-password');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
