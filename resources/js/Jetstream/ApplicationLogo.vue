@@ -1,14 +1,18 @@
 <template>
-    <img :src="getImage()" class="object-scale-down h-48 w-30 rounded-full h-48 w-30 flex items-center justify-center">
+  <img
+    :src="getImage()"
+    class="object-scale-down h-48 w-30 rounded-full h-48 w-30 flex items-center justify-center"
+  />
 </template>
 
 
 <script>
- export default {
-     methods:{
-         getImage(){
-             return 'img/ckstore_logomarca.jpeg';
-         }
-     }
- }
+import imageLogo from "../../../public/img/ckstore_logomarca.jpeg";
+export default {
+  data: function () {
+    return {
+      imageLogo: imageLogo,
+    };
+  },
+};
 </script>
