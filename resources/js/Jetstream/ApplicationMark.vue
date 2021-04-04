@@ -1,7 +1,7 @@
 <template>
   <img
     :src="imageLogo"
-    class="object-scale-down h-16 w-30 rounded-full h-16 w-30 flex items-center justify-center"
+    class="object-scale-down h-16 w-30 rounded-full flex items-center justify-center"
   />
 </template>
 
