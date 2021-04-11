@@ -10,16 +10,16 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $users = Client::all();
+        $clients = Client::all();
 
-        return view('clients.index', [
-            'users' => $users
+        return Inertia::render('Clients/Index',[
+            'clients' => $clients
         ]);
     }
 
     public function create()
     {
-
+        return Inertia::render('Clients/Create');
     }
 
     public function remove()
@@ -30,5 +30,19 @@ class ClientController extends Controller
     public function update()
     {
 
+    }
+
+    public function store(Request $request)
+    {
+        $client = new Client;
+
+        $client->name = $request->name;
+        $client->email = $request->email;
+        $client->phone = $request->phone;
+        $client->address = $request->address;
+
+        $client->save();
+
+        return redirect()->action([ClientController::class, 'index']);
     }
 }
