@@ -32,8 +32,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::prefix('clients')->group(function () {
-        Route::get('/', [ClientController::class, 'index']);
-        Route::get('/create', [ClientController::class, 'create']);
+        Route::get('/', [ClientController::class, 'index'])->name('clients');
+        Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
+        Route::post('/create', [ClientController::class, 'store']);
         Route::get('/remove', [ClientController::class, 'remove']);
         Route::get('/update', [ClientController::class, 'update']);
 
