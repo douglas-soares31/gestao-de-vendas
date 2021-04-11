@@ -15,9 +15,10 @@ class Provider extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('cnpj');
+            $table->string('cnpj')->nullable();;
+            $table->string('phone');
             $table->string('name')->unique();
-            $table->text('address');
+            $table->text('address')->nullable();;
             $table->timestamps();
         });
     }
