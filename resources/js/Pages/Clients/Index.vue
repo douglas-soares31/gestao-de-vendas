@@ -16,24 +16,38 @@
         </inertia-link>
       </div>
     </template>
-    <div>
-      <table class="table-auto">
-        <thead>
+    <div class="pt-20">
+      <table
+        class="mx-auto w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden pt-20"
+      >
+        <thead class="bg-gray-50">
           <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Telefone</th>
-            <th>Endereço</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Id</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Nome</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Email</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Telefone</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Endereço</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Editar</th>
+            <th class="font-semibold text-sm uppercase px-6 py-4">Excluir</th>
           </tr>
         </thead>
-        <tbody v-for="client in clients" :key="client.id">
+        <tbody
+          class="divide-y divide-gray-200"
+          v-for="client in clients"
+          :key="client.id"
+        >
           <tr>
-            <td>{{ client.id }}</td>
-            <td>{{ client.name }}</td>
-            <td>{{ client.email }}</td>
-            <td>{{ client.phone }}</td>
-            <td>{{ client.address }}</td>
+            <td class="px-6 py-4">{{ client.id }}</td>
+            <td class="px-6 py-4">{{ client.name }}</td>
+            <td class="px-6 py-4">{{ client.email }}</td>
+            <td class="px-6 py-4">{{ client.phone }}</td>
+            <td class="px-6 py-4">{{ client.address }}</td>
+            <td class="px-6 py-4 text-center">
+              <i class="fas fa-edit text-yellow-400"></i>
+            </td>
+            <td class="px-6 py-4 text-center">
+              <i class="fas fa-times-circle text-red-400"></i>
+            </td>
           </tr>
         </tbody>
       </table>
