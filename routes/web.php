@@ -26,7 +26,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
@@ -35,9 +35,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::get('/', [ClientController::class, 'index'])->name('clients');
         Route::get('/create', [ClientController::class, 'create'])->name('clients.create');
         Route::post('/create', [ClientController::class, 'store']);
-        Route::get('/remove', [ClientController::class, 'remove']);
-        Route::get('/update', [ClientController::class, 'update']);
-
+        Route::post('/remove/{id}', [ClientController::class, 'remove'])->name('clients.remove');
+        Route::get('/update', [ClientController::class, 'update'])->name('clients.update');
     });
-
 });
