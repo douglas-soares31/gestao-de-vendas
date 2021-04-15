@@ -12,7 +12,7 @@ class ClientController extends Controller
     {
         $clients = Client::all();
 
-        return Inertia::render('Clients/Index',[
+        return Inertia::render('Clients/Index', [
             'clients' => $clients
         ]);
     }
@@ -22,14 +22,15 @@ class ClientController extends Controller
         return Inertia::render('Clients/Create');
     }
 
-    public function remove()
+    public function remove($id)
     {
+        $clients = Client::find($id);
 
+        $clients->delete();
     }
 
     public function update()
     {
-
     }
 
     public function store(Request $request)
