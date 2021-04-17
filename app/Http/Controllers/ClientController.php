@@ -12,25 +12,41 @@ class ClientController extends Controller
     {
         $clients = Client::all();
 
-        return Inertia::render('Clients/Index', [
+        return Inertia::render('Register/Clients/Index', [
             'clients' => $clients
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Clients/Create');
+        return Inertia::render('Register/Clients/Create');
     }
 
-    public function remove($id)
-    {
-        $clients = Client::find($id);
+    
 
-        $clients->delete();
+    public function edit($id)
+    {
+        $client = Client::find($id);
+
+        return Inertia::render('Register/Clients/Edit', [
+            'client' => $client
+        ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
+
+
+        $client = Client::find($request->id);
+
+        $client->name = $request->name;
+        $client->email = $request->email;
+        $client->phone = $request->phone;
+        $client->address = $request->address;
+
+        $client->save();
+
+        return redirect()->action([ClientController::class, 'index']);
     }
 
     public function store(Request $request)
@@ -43,6 +59,15 @@ class ClientController extends Controller
         $client->address = $request->address;
 
         $client->save();
+
+        return redirect()->action([ClientController::class, 'index']);
+    }
+
+    public function remove($id)
+    {
+        $clients = Client::find($id);
+
+        $clients->delete();
 
         return redirect()->action([ClientController::class, 'index']);
     }
