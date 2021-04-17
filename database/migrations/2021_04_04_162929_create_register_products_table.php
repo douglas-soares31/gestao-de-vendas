@@ -17,6 +17,7 @@ class CreateRegisterProductsTable extends Migration
             $table->id();
             $table->text('description');
             $table->string('size');
+            $table->text('image_path')->nullable();
             $table->timestamps();
         });
     }
