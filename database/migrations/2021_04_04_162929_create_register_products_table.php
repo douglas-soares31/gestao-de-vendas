@@ -17,6 +17,8 @@ class CreateRegisterProductsTable extends Migration
             $table->id();
             $table->text('description');
             $table->string('size');
+            $table->double('unit_purchase_value');
+            $table->double('unit_sale_value');
             $table->text('image_path')->nullable();
             $table->timestamps();
         });
