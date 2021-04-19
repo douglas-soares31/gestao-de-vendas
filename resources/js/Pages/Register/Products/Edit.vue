@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex justify-between">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          Editando Cliente -> {{ form.name }}
+          Editando Produto | {{ form.id }} ( {{ form.description }} )
         </h2>
       </div>
     </template>
@@ -16,56 +16,103 @@
 
       <jet-form-card>
         <template #form>
-          <form @submit.prevent="submit">
+          <form @submit.prevent="submit" enctype="multipart/form-data">
             <div>
-              <jet-label for="name" value="Nome" />
+              <jet-label for="description" value="Descrição do item" />
               <jet-input
-                id="name"
+                id="description"
                 type="text"
                 class="mt-1 block w-full"
-                v-model="form.name"
+                v-model="form.description"
                 required
                 autofocus
               />
             </div>
             <div>
-              <jet-label for="email" value="Email" />
+              <jet-label for="size" value="Tamanho" />
               <jet-input
-                id="email"
-                type="email"
+                id="size"
+                type="text"
                 class="mt-1 block w-full"
-                v-model="form.email"
+                v-model="form.size"
                 required
                 autofocus
               />
             </div>
 
             <div>
-              <jet-label for="phone" value="Telefone" />
+              <jet-label
+                for="unit_purchase_value"
+                value="Preço unitário da Compra"
+              />
               <jet-input
-                id="phone"
+                id="unit_purchase_value"
                 type="text"
                 class="mt-1 block w-full"
-                v-model="form.phone"
+                v-model="form.unit_purchase_value"
                 required
                 autofocus
               />
             </div>
 
             <div>
-              <jet-label for="address" value="Endereço" />
-              <textarea
-                class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                id="address"
-                v-model="form.address"
+              <jet-label
+                for="unit_sale_value"
+                value="Preço unitário da Venda"
+              />
+              <jet-input
+                id="unit_sale_value"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.unit_sale_value"
+                required
+                autofocus
+              />
+            </div>
+
+            <!-- Profile Photo File Input -->
+            <input
+              type="file"
+              class="hidden"
+              ref="image_path"
+              @change="updatePhotoPreview"
+            />
+
+            <jet-label for="image_path" value="Imagem" />
+
+            <div class="mt-2" v-show="!photoPreview">
+              <img
+                :src="imageStorage"
+                :alt="form.description"
+                class="rounded-full h-20 w-20 object-cover"
+              />
+            </div>
+
+            <!-- New Profile Photo Preview -->
+            <div class="mt-2" v-show="photoPreview">
+              <span
+                class="block rounded-full w-20 h-20"
+                :style="
+                  'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' +
+                  photoPreview +
+                  '\');'
+                "
               >
-              </textarea>
+              </span>
             </div>
+
+            <jet-secondary-button
+              class="mt-2 mr-2"
+              type="button"
+              @click.prevent="selectNewPhoto"
+            >
+              Selecionar imagem
+            </jet-secondary-button>
 
             <div class="flex mt-4 justify-between">
               <inertia-link
                 class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150"
-                :href="route('clients')"
+                :href="route('register.products')"
                 as="button"
                 type="button"
               >
@@ -97,21 +144,28 @@ import JetLabel from "@/Jetstream/Label";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import JetFormCard from "@/Jetstream/FormCard";
 import JetTextarea from "@/Jetstream/Textarea";
+import JetSecondaryButton from "@/Jetstream/SecondaryButton";
+import JetInputError from "@/Jetstream/InputError";
 
 export default {
   data() {
     return {
-      form: {
-        id: this.client.id,
-        name: this.client.name,
-        email: this.client.email,
-        phone: this.client.phone,
-        address: this.client.address,
-      },
+      form: this.$inertia.form({
+        _method: "PUT",
+        id: this.registerProducts.id,
+        description: this.registerProducts.description,
+        size: this.registerProducts.size,
+        unit_purchase_value: this.registerProducts.unit_purchase_value,
+        unit_sale_value: this.registerProducts.unit_sale_value,
+        image_path: this.registerProducts.image_path,
+      }),
+      photoPreview: null,
+      imageStorage:
+        "../../../../../storage/" + this.registerProducts.image_path,
     };
   },
   props: {
-    client: Object,
+    registerProducts: Object,
   },
   components: {
     AppLayout,
@@ -123,15 +177,35 @@ export default {
     JetValidationErrors,
     JetFormCard,
     JetTextarea,
+    JetSecondaryButton,
+    JetInputError,
   },
   methods: {
     submit() {
-      this.$inertia.put(
-        route("clients.update", {
-          id: this.client.id,
+      if (this.$refs.image_path) {
+        this.form.image_path = this.$refs.image_path.files[0];
+      }
+
+      this.$inertia.post(
+        route("register.products.update", {
+          id: this.registerProducts.id,
         }),
         this.form
       );
+    },
+
+    selectNewPhoto() {
+      this.$refs.image_path.click();
+    },
+
+    updatePhotoPreview() {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        this.photoPreview = e.target.result;
+      };
+
+      reader.readAsDataURL(this.$refs.image_path.files[0]);
     },
   },
 };
