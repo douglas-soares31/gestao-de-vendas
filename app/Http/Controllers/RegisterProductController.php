@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RegisterProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RegisterProductController extends Controller
@@ -22,7 +23,7 @@ class RegisterProductController extends Controller
         return Inertia::render('Register/Products/Create');
     }
 
-    
+
 
     public function edit($id)
     {
@@ -41,7 +42,16 @@ class RegisterProductController extends Controller
 
         $registerProduct->description = $request->description;
         $registerProduct->size = $request->size;
-        $registerProduct->image_path = $request->image_path;
+        $registerProduct->unit_purchase_value = $request->unit_purchase_value;
+        $registerProduct->unit_sale_value = $request->unit_sale_value;
+
+        if ($request->hasFile('image_path')) {
+            Storage::disk('public')->delete($registerProduct->image_path);
+
+            $path = $request->file('image_path')->store('images/products', ['disk' => 'public']);
+            $registerProduct->image_path = $path;
+        }
+
 
         $registerProduct->save();
 
@@ -54,7 +64,11 @@ class RegisterProductController extends Controller
 
         $registerProduct->description = $request->description;
         $registerProduct->size = $request->size;
-        $registerProduct->image_path = $request->image_path;
+        $registerProduct->unit_purchase_value = $request->unit_purchase_value;
+        $registerProduct->unit_sale_value = $request->unit_sale_value;
+
+        $path = $request->file('image_path')->store('images/products', ['disk' => 'public']);
+        $registerProduct->image_path = $path;
 
         $registerProduct->save();
 
@@ -65,6 +79,7 @@ class RegisterProductController extends Controller
     {
         $registerProducts = RegisterProduct::find($id);
 
+        Storage::disk('public')->delete($registerProducts->image_path);
         $registerProducts->delete();
 
         return redirect()->action([RegisterProductController::class, 'index']);
