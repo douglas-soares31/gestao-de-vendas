@@ -66,7 +66,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         Route::prefix('products')->group(function () {
             Route::get('/', [RegisterProductController::class, 'index'])->name('register.products');
             Route::get('/create', [RegisterProductController::class, 'create'])->name('register.products.create');
-            Route::post('/', [RegisterProductController::class, 'store'])->name('register.products.store');
+            Route::put('/', [RegisterProductController::class, 'store'])->name('register.products.store');
             Route::delete('/{id}/remove', [RegisterProductController::class, 'remove'])->name('register.products.remove');
             Route::get('/{id}/edit', [RegisterProductController::class, 'edit'])->name('register.products.edit');
             Route::put('/{id}/update', [RegisterProductController::class, 'update'])->name('register.products.update');
