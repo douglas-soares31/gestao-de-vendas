@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\RegisterExpenseController;
 use App\Http\Controllers\RegisterProductController;
+use App\Http\Controllers\StockController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,5 +73,25 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::get('/{id}/edit', [RegisterProductController::class, 'edit'])->name('register.products.edit');
             Route::put('/{id}/update', [RegisterProductController::class, 'update'])->name('register.products.update');
         });
+    });
+
+    Route::prefix('orders')->group(function () {
+
+        Route::prefix('purchases')->group(function () {
+            Route::get('/', [PurchaseOrderController::class, 'index'])->name('purchases');
+            Route::get('/create', [PurchaseOrderController::class, 'create'])->name('purchases.create');
+            Route::post('/', [PurchaseOrderController::class, 'store'])->name('purchases.store');
+            Route::delete('/{id}/remove', [PurchaseOrderController::class, 'remove'])->name('purchases.remove');
+            Route::get('/{id}/edit', [PurchaseOrderController::class, 'edit'])->name('purchases.edit');
+            Route::put('/{id}/update', [PurchaseOrderController::class, 'update'])->name('purchases.update');
+        });
+
+        Route::prefix('sales')->group(function () {
+            Route::get('/', [StockController::class, 'index'])->name('sales');
+        });
+    });
+
+    Route::prefix('stocks')->group(function () {
+        Route::get('/', [StockController::class, 'index'])->name('stocks');
     });
 });
