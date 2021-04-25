@@ -34,6 +34,8 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-free": "^5.15.3"
+        "@fortawesome/fontawesome-free": "^5.15.3",
+        "v-money": "^0.8.1",
+        "vue-select": "^3.11.2"
     }
 }
