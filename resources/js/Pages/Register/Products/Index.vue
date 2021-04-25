@@ -31,7 +31,7 @@
           :src="'../storage/' + product.image_path"
         />
         <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">ID: {{ product.id }}</div>
+          <div class="font-bold text-xl mb-2"># {{ product.id }}</div>
         </div>
         <div class="flex flex-row px-6 py-4 justify-between divide-x divide-gray-300">
           <div class="px-6 py-4">
