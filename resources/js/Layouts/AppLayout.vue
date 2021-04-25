@@ -45,6 +45,12 @@
                                     Produtos
                                 </jet-nav-link>
                             </div>
+
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <jet-nav-link :href="route('stocks')" :active="route().current('stocks')">
+                                    Estoque
+                                </jet-nav-link>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -190,6 +196,12 @@
                     <div class="pt-2 pb-3 space-y-1">
                         <jet-responsive-nav-link :href="route('register.products')" :active="route().current('register.products')">
                             Produtos
+                        </jet-responsive-nav-link>
+                    </div>
+
+                    <div class="pt-2 pb-3 space-y-1">
+                        <jet-responsive-nav-link :href="route('stocks')" :active="route().current('stocks')">
+                            Estoque
                         </jet-responsive-nav-link>
                     </div>
 
