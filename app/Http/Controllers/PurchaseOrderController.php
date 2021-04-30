@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\PurchaseItem;
 use App\Models\PurchaseOrder;
+use App\Models\Stock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -64,18 +66,9 @@ class PurchaseOrderController extends Controller
 
         $purchaseOrder->save();
 
-        foreach ($request->purchase_items as $item) {
+        $purchaseItem = new PurchaseItem();
 
-            $purchaseItem = new PurchaseItem();
-            $item = (object) $item;
-
-            $purchaseItem->purchase_order_id = $purchaseOrder->id;
-            $purchaseItem->register_product_id = $item->id;
-            $purchaseItem->quantity = $item->quantity;
-            $purchaseItem->unitary_value = $item->unitary_value;
-
-            $purchaseItem->save();
-        }
+        $purchaseItem->storePurchaseItems($purchaseOrder, $request->purchase_items);
 
         return redirect()->action([PurchaseOrderController::class, 'index']);
     }
@@ -99,10 +92,23 @@ class PurchaseOrderController extends Controller
      */
     public function edit($id)
     {
-        $provider = PurchaseOrder::find($id);
+        $purchaseOrder = PurchaseOrder::find($id);
+        $purchaseItems = DB::table('register_products')
+            ->join('purchase_items', 'register_products.id', '=', 'purchase_items.register_product_id')
+            ->where('purchase_items.purchase_order_id', $id)
+            ->select('purchase_items.*', 'register_products.description', DB::raw('quantity * unitary_value as total_item_value'))
+            ->get();
+
+        $providers = DB::table('providers')->orderBy('name', 'desc')->get();
+        $products = DB::table('register_products')->orderBy('description', 'desc')->get();
+
+
 
         return Inertia::render('Orders/Purchases/Edit', [
-            'provider' => $provider
+            'purchaseOrder' => $purchaseOrder,
+            'purchaseItems' => $purchaseItems,
+            'providers' => $providers,
+            'products' => $products,
         ]);
     }
 
@@ -113,15 +119,24 @@ class PurchaseOrderController extends Controller
      * @param  \App\Models\PurchaseOrder  $provider
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PurchaseOrder $provider)
+    public function update(Request $request)
     {
-        $provider = PurchaseOrder::find($request->id);
 
-        $provider->name = $request->name;
-        $provider->phone = $request->phone;
-        $provider->address = $request->address;
+        $purchaseOrder = PurchaseOrder::find($request->id);
 
-        $provider->save();
+        $purchaseItem = new PurchaseItem();
+        $purchaseItem->removePurchaseItems($purchaseOrder);
+
+        $purchaseOrder->provider_id = $request->provider_id;
+        $purchaseOrder->amount = $request->subtotal;
+        $purchaseOrder->request_date = $request->request_date;
+        $purchaseOrder->entry_date = $request->entry_date;
+        $purchaseOrder->paided_at = $request->paided_at;
+        $purchaseOrder->payment_form = $request->payment_form;
+
+        $purchaseOrder->save();
+
+        $purchaseItem->storePurchaseItems($purchaseOrder, $request->purchase_items);
 
         return redirect()->action([PurchaseOrderController::class, 'index']);
     }
@@ -134,9 +149,12 @@ class PurchaseOrderController extends Controller
      */
     public function remove($id)
     {
-        $purchasesOrders = PurchaseOrder::find($id);
+        $purchaseOrder = PurchaseOrder::find($id);
 
-        $purchasesOrders->delete();
+        $purchaseItem = new PurchaseItem();
+        $purchaseItem->removePurchaseItems($purchaseOrder);
+
+        $purchaseOrder->delete();
 
         return redirect()->action([PurchaseOrderController::class, 'index']);
     }
