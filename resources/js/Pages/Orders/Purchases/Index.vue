@@ -18,7 +18,7 @@
     </template>
 
     <div
-      class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 md:gap-3 space-y-3 md:space-y-0 mt-4 ml-4"
+      class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4 space-y-4 md:space-y-0 mt-4 ml-4"
     >
       <div
         class="grid content-between shadow border rounded-lg overflow-hidden shadow-lg my-2 hover:border-pink-300"
@@ -28,20 +28,24 @@
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2"># {{ purchase.id }}</div>
         </div>
-        <div class="flex flex-row px-6 py-4 justify-between divide-x divide-gray-300">
+        <div
+          class="flex flex-row px-6 py-4 justify-between divide-x divide-gray-300"
+        >
           <div class="px-6 py-4">
             <p class="text-grey-darker text-sm">
-              {{ purchase.name }}
+              <span class="font-bold">
+                {{ purchase.name }}
+              </span>
             </p>
-            <p class="text-sm">Tam: <span class="font-bold">{{ purchase.size }}</span></p>
+            <p class="text-sm">{{ purchase.phone }}</p>
           </div>
 
           <div class="px-6 py-4">
             <p class="text-green-400 text-sm">
-              Valor unitário de Compra: <span class="font-bold">{{ purchase.unit_purchase_value }}</span>
-            </p>
-            <p class="text-red-400 text-sm">
-              Valor unitário de Venda: <span class="font-bold">{{ purchase.unit_order_value }}</span>
+              Valor Total da Compra:
+              <span class="font-bold">{{
+                formatterBR.format(purchase.amount)
+              }}</span>
             </p>
           </div>
         </div>
@@ -91,6 +95,11 @@ export default {
   data() {
     return {
       dadosCompras: this.purchasesOrders,
+      formatterBR: new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        minimumFractionDigits: 2,
+      }),
     };
   },
   props: {
