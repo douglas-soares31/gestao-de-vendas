@@ -136,7 +136,7 @@
                       <jet-label for="register_product_id" value="Produto" />
 
                       <select
-                        v-model="dataItem.id"
+                        v-model="dataItem.register_product_id"
                         class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"
                         @change="updateUnitaryValue"
                         id="product"
@@ -184,12 +184,7 @@
                     <p class="text-green-400 mt-2">
                       Valor total do item:
                       <span class="font-bold" v-bind="money">
-                        R$
-                        {{
-                          new Intl.NumberFormat("de-DE").format(
-                            dataItem.total_value_item
-                          )
-                        }}</span
+                        {{ formatterBR.format(dataItem.total_value_item) }}</span
                       >
                     </p>
                   </template>
@@ -235,11 +230,11 @@
 
                     <tr
                       v-for="item in form.purchase_items"
-                      :key="item.id"
+                      :key="item.register_product_id"
                       class="hover:bg-gray-200 focus-within:bg-gray-200"
                     >
                       <td class="border-t px-6 py-4">
-                        {{ item.id }}
+                        {{ item.register_product_id }}
                       </td>
                       <td class="border-t px-6 py-4">
                         {{ item.description }}
@@ -251,12 +246,7 @@
                         {{ item.unitary_value }}
                       </td>
                       <td class="border-t px-6 py-4">
-                        R$
-                        {{
-                          new Intl.NumberFormat("de-DE").format(
-                            item.total_item_value
-                          )
-                        }}
+                        {{ formatterBR.format(item.total_item_value) }}
                       </td>
                       <td class="border-t px-6 py-4">
                         <i
@@ -274,10 +264,7 @@
                         Valor Total do Pedido:
                       </td>
                       <td class="border-t px-6 py-4">
-                        R$
-                        {{
-                          new Intl.NumberFormat("de-DE").format(form.subtotal)
-                        }}
+                        {{ formatterBR.format(form.subtotal) }}
                       </td>
                     </tr>
                   </table>
@@ -323,7 +310,7 @@ export default {
       }),
 
       dataItem: {
-        id: null,
+        register_product_id: null,
         description: null,
         quantity: 0,
         unitary_value: 0,
@@ -336,8 +323,13 @@ export default {
         prefix: "R$ ",
         suffix: "",
         precision: 2,
-        masked: false /* doesn't work with directive */,
+        masked: true /* doesn't work with directive */,
       },
+      formatterBR: new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+        minimumFractionDigits: 2,
+      }),
     };
   },
   props: {
@@ -391,7 +383,7 @@ export default {
     },
 
     updateUnitaryValue() {
-      var value_unit = 0.0;
+      var value_unit = 0;
 
       const idProduct = document.getElementById("product").value;
 
@@ -400,6 +392,8 @@ export default {
           value_unit = product.unit_purchase_value;
         }
       });
+
+      value_unit = value_unit.toFixed(2);
 
       this.dataItem.unitary_value = value_unit;
     },
@@ -415,7 +409,7 @@ export default {
       });
 
       this.form.purchase_items.push({
-        id: this.dataItem.id,
+        register_product_id: this.dataItem.register_product_id,
         description: descriptionProd,
         quantity: this.dataItem.quantity,
         unitary_value: this.dataItem.unitary_value,
@@ -428,14 +422,12 @@ export default {
     },
 
     removeItem(item) {
-
       this.form.subtotal -= item.total_item_value;
 
       this.form.purchase_items.splice(
         this.form.purchase_items.indexOf(item),
         1
       );
-
     },
   },
 };
