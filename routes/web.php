@@ -83,7 +83,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
             Route::post('/', [PurchaseOrderController::class, 'store'])->name('purchases.store');
             Route::delete('/{id}/remove', [PurchaseOrderController::class, 'remove'])->name('purchases.remove');
             Route::get('/{id}/edit', [PurchaseOrderController::class, 'edit'])->name('purchases.edit');
-            Route::put('/{id}/update', [PurchaseOrderController::class, 'update'])->name('purchases.update');
+            Route::post('/{id}/update', [PurchaseOrderController::class, 'update'])->name('purchases.update');
         });
 
         Route::prefix('sales')->group(function () {
