@@ -5,6 +5,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\RegisterExpenseController;
 use App\Http\Controllers\RegisterProductController;
+use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\StockController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -87,7 +88,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         });
 
         Route::prefix('sales')->group(function () {
-            Route::get('/', [StockController::class, 'index'])->name('sales');
+            Route::get('/', [SaleOrderController::class, 'index'])->name('sales');
+            Route::get('/create', [SaleOrderController::class, 'create'])->name('sales.create');
+            Route::post('/', [SaleOrderController::class, 'store'])->name('sales.store');
+            Route::delete('/{id}/remove', [SaleOrderController::class, 'remove'])->name('sales.remove');
+            Route::get('/{id}/edit', [SaleOrderController::class, 'edit'])->name('sales.edit');
+            Route::post('/{id}/update', [SaleOrderController::class, 'update'])->name('sales.update');
         });
     });
 
