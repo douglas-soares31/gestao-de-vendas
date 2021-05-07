@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\RegisterExpenseController;
 use App\Http\Controllers\RegisterProductController;
 use App\Http\Controllers\SaleOrderController;
 use App\Http\Controllers\StockController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -33,9 +33,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('register')->group(function () {
 
