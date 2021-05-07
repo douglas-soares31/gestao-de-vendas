@@ -21,35 +21,27 @@
           class="object-fill w-full"
           :src="'../storage/' + stock.image_path"
         />
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">
-            # {{ stock.register_product_id }}
-          </div>
-          <p class="text-grey-darker text-sm">
+        <div class="grid grid-rows-4 grid-flow-col gap-2">
+          <p class="font-bold justify-self-center">ID</p>
+          <span class="justify-self-center">
+            #{{ stock.register_product_id }}
+          </span>
+          <p class="font-bold justify-self-center">Descrição</p>
+          <span class="text-grey-darker text-sm">
             {{ stock.description }}
-          </p>
-        </div>
-        <div
-          class="flex flex-row px-6 py-4 justify-between divide-x divide-gray-300"
-        >
-          <div class="px-6 py-4">
-            <p class="text-sm">
-              Tam: <span class="font-bold">{{ stock.size }}</span>
-            </p>
-          </div>
-
-          <div class="px-6 py-4">
-            <p class="text-green-400 text-sm">
-              Quantidade disponível:
-              <span class="font-bold">{{ stock.quantity }}</span>
-            </p>
-          </div>
+          </span>
+          <p class="font-bold justify-self-center">Tamanho</p>
+          <span class="justify-self-center">{{ stock.size }}</span>
+          <p class="font-bold justify-self-center">QTD disponível</p>
+          <span class="text-green-500 justify-self-center">{{
+            stock.quantity
+          }}</span>
         </div>
       </div>
     </div>
 
     <div v-if="this.dadosStocks.length === 0">
-      <td class="w-full">Não há dados cadastrados.</td>
+      <td class="w-full">Não há estoque disponível.</td>
     </div>
   </app-layout>
 </template>
