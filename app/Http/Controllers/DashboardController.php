@@ -25,14 +25,21 @@ class DashboardController extends Controller
         $countClients = Client::all()->count();
         $countSales = SaleOrder::all()->count();
 
+        $salesOrders = DB::table('sale_orders')
+            ->select(DB::raw('sum(amount) as amount'), DB::raw('count(*) as count'))
+            ->where(DB::raw('DATE_FORMAT(request_date,"%Y-%m-%d")'), '<', $lastMonth)
+            ->first();
+
         $salesOrdersLastMonth = DB::table('sale_orders')
             ->select(DB::raw('sum(amount) as amount'), DB::raw('count(*) as count'))
             ->where(DB::raw('DATE_FORMAT(request_date,"%Y-%m-%d")'), '>=', $lastMonth)
             ->first();
 
         $percSalesLastMonth = 0;
-        if ($countSales > 0) {
-            $percSalesLastMonth = round(($salesOrdersLastMonth->count / $countSales) * 100, 2);
+        if ($salesOrders->count > 0) {
+            $percSalesLastMonth = round(($salesOrdersLastMonth->count / $salesOrders->count) * 100, 2);
+        } else {
+            $percSalesLastMonth = 100;
         }
 
         for ($date = Carbon::now()->subMonths(5); $date->diffInMonths(Carbon::now()->addMonth()) > 0; $date->addMonth()) {
@@ -70,7 +77,14 @@ class DashboardController extends Controller
         $salesTotal = DB::table('sale_items')
             ->select(DB::raw('SUM(sale_items.quantity) as totalQuantity'), DB::raw('SUM(sale_items.quantity * sale_items.unitary_value) as totalAmount'))
             ->first();
-        
+
+        if (!isset($salesTotal->totalAmount)) {
+            $salesTotal->totalAmount = 0;
+        }
+
+        if (!isset($salesTotal->totalQuantity)) {
+            $salesTotal->totalQuantity = 0;
+        }
 
         $itemsSales = DB::table('sale_items')
             ->select('register_products.id', 'register_products.description', 'register_products.size', 'register_products.image_path', DB::raw('SUM(sale_items.quantity) as totalQuantity'), DB::raw('SUM(sale_items.quantity * sale_items.unitary_value) as totalAmount'), DB::raw('(SUM(sale_items.quantity * sale_items.unitary_value) / ' . $salesTotal->totalAmount . ') * 100 as percAmount'), DB::raw('(SUM(sale_items.quantity) / ' . $salesTotal->totalQuantity . ') * 100 as percQuantity'))
