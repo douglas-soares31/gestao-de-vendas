@@ -61,8 +61,8 @@ export default {
           datasets: [
             {
               label: "Compras",
-              backgroundColor: "#ed64a6",
-              borderColor: "#ed64a6",
+              backgroundColor: "#4c51bf",
+              borderColor: "#4c51bf",
               data: this.dataChart.Purchases.countP,
               fill: false,
               barThickness: 8,
@@ -70,8 +70,8 @@ export default {
             {
               label: "Vendas",
               fill: false,
-              backgroundColor: "#4c51bf",
-              borderColor: "#4c51bf",
+              backgroundColor: "#ed64a6",
+              borderColor: "#ed64a6",
               data: this.dataChart.Sales.countS,
               barThickness: 8,
             },
